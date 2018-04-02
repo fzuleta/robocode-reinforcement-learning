@@ -17,6 +17,9 @@ import robocode.HitWallEvent
 import robocode.HitByBulletEvent
 import robocode.BulletMissedEvent
 import robocode.BattleEndedEvent
+import org.deeplearning4j.rl4j.learning.HistoryProcessor;
+
+
 
 
 fun randInt(min: Int, max: Int): Double = (Random().nextInt(max + 1 - min) + min).toDouble()
@@ -26,12 +29,14 @@ object g {
     var winsCount = 0
 }
 
+
 class R_1 : AdvancedRobot() {
     var reward = 0
+    val dataManager = DataManager(true)
     init {
         println("hello hello")
     }
-    override fun run() { 
+    override fun run() {
         setBodyColor(Color.blue)
         setGunColor(Color.gray)
         setRadarColor(Color.gray)
@@ -42,7 +47,6 @@ class R_1 : AdvancedRobot() {
 
         isAdjustGunForRobotTurn = true
         isAdjustRadarForGunTurn = true
-
 
         while (true) {
             executeAction(5)
@@ -78,28 +82,28 @@ class R_1 : AdvancedRobot() {
         val degrees = 90.0
         setTurnRight(degrees)
         waitFor(TurnCompleteCondition(this))
-        setAhead(200.0)
+        setAhead(100.0)
         waitFor(MoveCompleteCondition(this))
     }
     private fun runAwayLeft() {
         val degrees = 90.0
         setTurnLeft(degrees)
-        setAhead(200.0)
         waitFor(TurnCompleteCondition(this))
+        setAhead(100.0)
         waitFor(MoveCompleteCondition(this))
     }
     private fun runAway45Right() {
         val degrees = 45.0
         setTurnRight(degrees)
-        setAhead(100.0)
         waitFor(TurnCompleteCondition(this))
+        setAhead(100.0)
         waitFor(MoveCompleteCondition(this))
     }
     private fun runAway45Left() {
         val degrees = 45.0
         setTurnLeft(degrees)
-        setAhead(100.0)
         waitFor(TurnCompleteCondition(this))
+        setAhead(100.0)
         waitFor(MoveCompleteCondition(this))
     }
     override fun onScannedRobot(e: ScannedRobotEvent) {
